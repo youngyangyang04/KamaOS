@@ -1,11 +1,10 @@
-*** Now run 'gdb' in another window.
 
 xv6 kernel is booting
 
-hart 1 starting
 hart 2 starting
+hart 1 starting
 init: starting sh
 $ sysinfotest
 sysinfotest: start
 sysinfotest: OK
-$ qemu-system-riscv64: terminating on signal 15 from pid 40977 (make)
+$ qemu-system-riscv64: terminating on signal 15 from pid 86829 (make)
