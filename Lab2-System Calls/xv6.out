@@ -1,78 +1,11 @@
+*** Now run 'gdb' in another window.
 
 xv6 kernel is booting
 
 hart 1 starting
 hart 2 starting
 init: starting sh
-$ trace 2 usertests forkforkfork
-usertests starting
-3: syscall fork -> 4
-test forkforkfork: 3: syscall fork -> 5
-5: syscall fork -> 6
-6: syscall fork -> 7
-6: syscall fork -> 8
-7: syscall fork -> 9
-6: syscall fork -> 10
-6: syscall fork -> 11
-6: syscall fork -> 12
-7: syscall fork -> 13
-6: syscall fork -> 14
-7: syscall fork -> 15
-6: syscall fork -> 16
-7: syscall fork -> 17
-6: syscall fork -> 18
-7: syscall fork -> 19
-6: syscall fork -> 20
-7: syscall fork -> 21
-6: syscall fork -> 22
-8: syscall fork -> 23
-6: syscall fork -> 24
-7: syscall fork -> 25
-6: syscall fork -> 26
-7: syscall fork -> 27
-6: syscall fork -> 28
-7: syscall fork -> 29
-6: syscall fork -> 30
-7: syscall fork -> 31
-6: syscall fork -> 32
-6: syscall fork -> 33
-7: syscall fork -> 34
-6: syscall fork -> 35
-7: syscall fork -> 36
-7: syscall fork -> 37
-6: syscall fork -> 38
-8: syscall fork -> 39
-6: syscall fork -> 40
-7: syscall fork -> 41
-6: syscall fork -> 42
-7: syscall fork -> 43
-6: syscall fork -> 44
-7: syscall fork -> 45
-6: syscall fork -> 46
-7: syscall fork -> 47
-6: syscall fork -> 48
-7: syscall fork -> 49
-6: syscall fork -> 50
-7: syscall fork -> 51
-6: syscall fork -> 52
-7: syscall fork -> 53
-8: syscall fork -> 54
-6: syscall fork -> 55
-7: syscall fork -> 56
-6: syscall fork -> 57
-7: syscall fork -> 58
-6: syscall fork -> 59
-7: syscall fork -> 60
-6: syscall fork -> 61
-8: syscall fork -> 62
-7: syscall fork -> 63
-6: syscall fork -> 64
-7: syscall fork -> 65
-6: syscall fork -> -1
-7: syscall fork -> -1
-8: syscall fork -> -1
-9: syscall fork -> -1
-OK
-3: syscall fork -> 66
-ALL TESTS PASSED
-$ qemu-system-riscv64: terminating on signal 15 from pid 4397 (make)
+$ sysinfotest
+sysinfotest: start
+sysinfotest: OK
+$ qemu-system-riscv64: terminating on signal 15 from pid 40977 (make)
