@@ -2191,11 +2191,6 @@ kvminithart()
     80000fe4:	577d                	li	a4,-1
     80000fe6:	177e                	slli	a4,a4,0x3f
     80000fe8:	8fd9                	or	a5,a5,a4
-// supervisor address translation and protection;
-// holds the address of the page table.
-static inline void 
-w_satp(uint64 x)
-{
   asm volatile("csrw satp, %0" : : "r" (x));
     80000fea:	18079073          	csrw	satp,a5
 // flush the TLB.

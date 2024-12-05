@@ -249,6 +249,9 @@ userinit(void)
   uvminit(p->pagetable, initcode, sizeof(initcode));
   p->sz = PGSIZE;
 
+  // 同步程序内存映射到进程内核页表中
+  kama_kvmcopymappings(p->pagetable, p->kama_kernelpgtbl, 0, p->sz); 
+
   // prepare for the very first "return" from kernel to user.
   p->trapframe->epc = 0;      // user program counter
   p->trapframe->sp = PGSIZE;  // user stack pointer
@@ -270,12 +273,22 @@ growproc(int n)
   struct proc *p = myproc();
 
   sz = p->sz;
-  if(n > 0){
-    if((sz = uvmalloc(p->pagetable, sz, sz + n)) == 0) {
-      return -1;
-    }
-  } else if(n < 0){
-    sz = uvmdealloc(p->pagetable, sz, sz + n);
+  if (n > 0) {
+      uint64 newsz;
+      if ((newsz = uvmalloc(p->pagetable, sz, sz + n)) == 0)
+          return -1;
+
+      // 内核页表中的映射同步扩大
+      if (kama_kvmcopymappings(p->pagetable, p->kama_kernelpgtbl, sz, n) != 0) {
+          uvmdealloc(p->pagetable, newsz, sz);
+          return -1;
+      }
+      sz = newsz;
+  }
+  else if (n < 0) {
+      uvmdealloc(p->pagetable, sz, sz + n);
+      // 内核页表中的映射同步缩小
+      sz = kama_kvmdealloc(p->kama_kernelpgtbl, sz, sz + n);
   }
   p->sz = sz;
   return 0;
@@ -296,8 +309,9 @@ fork(void)
   }
 
   // Copy user memory from parent to child.
-  if(uvmcopy(p->pagetable, np->pagetable, p->sz) < 0){
-    freeproc(np);
+  if (uvmcopy(p->pagetable, np->pagetable, p->sz) < 0 ||
+      kama_kvmcopymappings(np->pagetable, np->kama_kernelpgtbl, 0, p->sz) < 0) {
+      freeproc(np);
     release(&np->lock);
     return -1;
   }
