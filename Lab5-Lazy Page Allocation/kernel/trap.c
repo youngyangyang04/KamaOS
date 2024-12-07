@@ -67,10 +67,16 @@ usertrap(void)
     syscall();
   } else if((which_dev = devintr()) != 0){
     // ok
-  } else {
-    printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
-    printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
-    p->killed = 1;
+  }
+  else {
+    uint64 va = r_stval();
+    if((r_scause() == 13 || r_scause() == 15) && kama_uvmshouldallocate(va)){   // 缺页异常，并且发生异常的地址进行过惰性分配
+        kama_uvmlazyallocate(va); // 分配物理内存，并在页表创建映射
+    } else { // 如果不是缺页异常，或者是在非惰性分配地址上发生缺页异常，则抛出错误并杀死进程
+      printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
+      printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
+      p->killed = 1;
+    }
   }
 
   if(p->killed)
