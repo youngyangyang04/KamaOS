@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "riscv.h": "c",
-        "sysinfo.h": "c"
+        "sysinfo.h": "c",
+        "proc.h": "c"
     }
 }
