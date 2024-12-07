@@ -97,3 +97,18 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64 sys_sigalarm(void) {
+    int n;          //n个ticks
+    uint64 fn;      //时钟回调函数
+    if (argint(0, &n) < 0)          //获取第一个参数
+        return -1;
+    if (argaddr(1, &fn) < 0)        //获取第二个参数
+        return -1;
+
+    return kama_sigalarm(n, (void(*)())(fn));        //调用并返回kama_sigalarm函数
+}
+
+uint64 sys_sigreturn(void) {
+    return kama_sigreturn();
+}

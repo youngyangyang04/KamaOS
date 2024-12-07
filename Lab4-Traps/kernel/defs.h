@@ -146,6 +146,8 @@ void            trapinit(void);
 void            trapinithart(void);
 extern struct spinlock tickslock;
 void            usertrapret(void);
+int             kama_sigalarm(int ticks, void(*handler)());
+int             kama_sigreturn();
 
 // uart.c
 void            uartinit(void);
