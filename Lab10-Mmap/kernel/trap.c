@@ -67,8 +67,14 @@ usertrap(void)
     syscall();
   } else if((which_dev = devintr()) != 0){
     // ok
-  } else {
-    printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
+  }
+  else if (r_scause() == 13 || r_scause() == 15){
+      uint64 va = r_stval();        // 读取当前发生页面错误的地址
+      if (vmaalloc(va) == 0)
+          panic("usertrap: wrong va");
+  }
+  else {
+      printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
     printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
     p->killed = 1;
   }
