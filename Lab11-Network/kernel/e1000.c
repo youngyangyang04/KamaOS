@@ -103,7 +103,33 @@ e1000_transmit(struct mbuf *m)
   // a pointer so that it can be freed after sending.
   //
   
-  return 0;
+    acquire(&e1000_lock);                               // 获取E1000锁，线程安全
+
+    uint32 idx = regs[E1000_TDT];                       // 获取传输buf环的下一个可用索引
+    struct tx_desc* desc = &tx_ring[idx];               // 获取当前传输buf的描述符指针
+
+    if ((desc->status & E1000_TXD_STAT_DD) == 0) {      // E1000没有完成之前的传输请求，返回错误（此时已经用完了环形buf列表，缓冲区无空闲）
+        release(&e1000_lock);
+        return -1;
+    }
+
+    if (tx_mbufs[idx]) {                                // 该idx是否关联了一个mbuf
+        mbuffree(tx_mbufs[idx]);                        // 表示之前该idx释放完毕了但未释放mbuf
+        tx_mbufs[idx] = 0;
+    }
+
+    desc->addr = (uint64)m->head;                       // mbuf的地址填入发送描述符中
+    desc->length = m->len;                              // mbuf的长度填入发送描述符中
+    desc->cmd = E1000_TXD_CMD_EOP | E1000_TXD_CMD_RS;   // EOP表示以太网帧的结束，RS表示需要报告发送状态
+    tx_mbufs[idx] = m;                                  // 将mbuf关联到发送描述符
+
+    // 更新发送描述符环的尾指针
+    regs[E1000_TDT] = (regs[E1000_TDT] + 1) % TX_RING_SIZE;
+
+    release(&e1000_lock);
+    return 0;
+
+    return 0;
 }
 
 static void
@@ -115,6 +141,28 @@ e1000_recv(void)
   // Check for packets that have arrived from the e1000
   // Create and deliver an mbuf for each packet (using net_rx()).
   //
+
+    // 循环检查接收描述符环中的数据包
+    while (1) {
+        uint32 idx = (regs[E1000_RDT] + 1) % RX_RING_SIZE;      // 下一个接收描述符的索引
+
+        struct rx_desc* desc = &rx_ring[idx];                   // 当前接收描述符的指针
+
+        if ((desc->status & E1000_RXD_STAT_DD) == 0)            // 接收描述符环中已经没有数据包需要结束，退出函数
+            return;
+
+        rx_mbufs[idx]->len = desc->length;                      // 接受描述符中数据包的长度设置到mbuf的长度字段中
+
+        net_rx(rx_mbufs[idx]);                                  // 将mbuf传递给网络层进行处理，网络层负责释放mbuf
+
+        // 分配一个新的mbuf,将新的mbuf的地址设置为接收描述符的地址，状态清空，以便下一次使用该下标使用
+        rx_mbufs[idx] = mbufalloc(0);
+        desc->addr = (uint64)rx_mbufs[idx]->head;
+        desc->status = 0;
+
+        // 将接收描述符环的尾指针设置为当前索引
+        regs[E1000_RDT] = idx;
+    }
 }
 
 void
