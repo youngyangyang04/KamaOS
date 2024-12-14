@@ -1,6 +1,6 @@
 # OS-Kernel
 
-> ⭐️ 本项目为[【代码随想录知识星球】](https://programmercarl.com/other/kstar.html) 教学项目
+> ⭐️ 本项目为[【代码随想录知识星球】](https://programmercarl.com/other/kstar.html) 教学项目   
 > ⭐️ 在 [手写操作系统项目文档](https://www.programmercarl.com/other/project_os.html)  里详细讲解：**项目前置知识 + 项目细节 +  代码解读 + 项目难点 + 面试题与回答 + 简历写法  + 项目拓展**。 全面帮助你用这个项目求职面试！
 
 本项目基于麻省理工学院的 MIT 6.S081 Operating System Engineering 课程实验，通过对 xv6 操作系统的优化和扩展，完成操作系统中的常见功能模块设计与实现，以加深对操作系统核心概念和机制的理解。
