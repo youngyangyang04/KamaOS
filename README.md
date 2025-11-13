@@ -1,37 +1,85 @@
-# OS-Kernel
+# C++项目推荐：手写操作系统项目 | 代码随想录
 
-> ⭐️ 本项目为[【代码随想录知识星球】](https://programmercarl.com/other/kstar.html) 教学项目   
-> ⭐️ 在 [手写操作系统项目文档](https://www.programmercarl.com/other/project_os.html)  里详细讲解：**项目前置知识 + 项目细节 +  代码解读 + 项目难点 + 面试题与回答 + 简历写法  + 项目拓展**。 全面帮助你用这个项目求职面试！
+> **本项目目前只在[知识星球](https://programmercarl.com/other/kstar.html)答疑并维护**。
 
-本项目基于麻省理工学院的 MIT 6.S081 Operating System Engineering 课程实验，通过对 xv6 操作系统的优化和扩展，完成操作系统中的常见功能模块设计与实现，以加深对操作系统核心概念和机制的理解。
+操作系统本身就是面试的必考知识，**尤其是面试后端开发、嵌入式开发等岗位时，更是如此**。
 
-## 运行环境
+同时操作系统也是一个很不错的项目，如果是C++选手做这个项目的话，既可以用来投后端岗位，也可以投 嵌入式岗位，都是比较匹配的。
 
-Ubuntu 20.04.6 LTS
 
-## 主要实验介绍
+如果想好好学习操作系统，一定绕不开 Mit6.s081。
 
-- **System Calls**：学习如何在 xv6 中实现新的系统调用
-- **Page Tables**：深入理解 RISC-V 的页表机制和 xv6 的地址空间管理
-- **Traps**：理解中断、异常和陷阱的处理机制
-- **Lazy Allocation**：实现惰性分配机制
-- **Multithreading**：实现用户级线程，学习并发编程
-- **Locks**：优化操作系统锁定策略以减少争用，提高并行性，提高性能
-- **File System**:优化和扩展 xv6 文件系统功能
+Mit6.s081 是麻省理工学院面向本科生的操作系统课程，其课程实验是在教学用操作系统xv6上进行扩展和优化。
 
-## 关键技术点
+Xv6 操作系统源代码只有一万余行，并且相对清晰和模块化，每个 lab 都带有自动评测功能，非常适合用于实践操作系统知识。
 
-- 系统调用
-- 页表
-- 中断
-- 内存管理
-- 线程
-- 锁
-- 文件系统
+这是大家公认的高质量操作系统实践课。
 
-## 待扩展功能
 
-- 优化或增强虚拟内存管理功能：如通过支持超级页减少页表中 PTE 的数量，从而减少页表占用的内存和 TLB 查找的开销；消除PLIC限制，让用户程序能够使用更大的地址空间。
-- 优化 xv6 的用户级线程机制：解决xv6用户级线程中线程阻塞和线程并行的问题。
-- 改进缓冲区缓存的查找：将缓冲区缓存的查找操作从锁的实现改为无锁的形式，提高高并发环境的性能。
-- 优化文件映射功能：实现多进程映射同一文件时共享物理页，避免内存浪费；优化惰性分配和文件映射的重复代码逻辑；实现页出与页入。
+星球项目文档就分享在[知识星球](https://programmercarl.com/other/kstar.html)里。
+
+今年秋招已经有录友用这个项目拿到offer了 ：
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241122174759.png' width=500 alt=''></img></div>
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241127143413.png' width=500 alt=''></img></div>
+
+关于星球项目文档已经更新了第二版：
+
+来看一下第二版目录：
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213173549.png' width=500 alt=''></img></div>
+
+序言介绍到 环境配置，从 lab1 到 lab11 都手把手带大家做完。
+
+如果很多人都做这个项目会不会烂大街？
+
+在项目文档中，每一个lab，都会给出可以拓展的点，大家可以自行拓展：
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213174631.png' width=500 alt=''></img></div>
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213174756.png' width=500 alt=''></img></div>
+
+不仅如此，这个项目面试题都给大家整理好了，而且哪个公司考察过都有记录，里面有三十多道面试题，如果都理解的话，面试基本没问题。
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213174922.png' width=500 alt=''></img></div>
+
+做完这个项目，简历写法应该怎么写，也给大家一份参考写法：
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213175040.png' width=500 alt=''></img></div>
+
+**用来突击的话，可以直接写到简历上，然后 “背诵” 就好**。 （注意背诵是打了引号的）
+
+### 文档部分截图
+
+
+做这个项目需要哪些【前置知识】：
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213173827.png' width=500 alt=''></img></div>
+
+【环境配置】是大家做这个lab最大的坑，项目文档将环境配置中大家遇到过的坑写出来了，扫清障碍。
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213173959.png' width=500 alt=''></img></div>
+
+接下来进入lab环节，从lab1 到 lab11，手把手带你实现操作系统。
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213174430.png' width=500 alt=''></img></div>
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213174448.png' width=500 alt=''></img></div>
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213174509.png' width=500 alt=''></img></div>
+
+<div align="center"><img src='https://file1.kamacoder.com/i/algo/20241213174536.png' width=500 alt=''></img></div>
+
+## 答疑
+
+本项目在[知识星球](https://programmercarl.com/other/kstar.html)里为 文字专栏形式，大家不用担心，看不懂，星球里每个项目有专属答疑群，任何问题都可以在群里问，都会得到解答：
+
+![](https://file1.kamacoder.com/i/web/2025-09-26_11-30-13.jpg)
+
+
+## 项目文档获取方式：
+
+**本文档仅为星球内部专享，大家可以加入[知识星球](https://programmercarl.com/other/kstar.html)里获取，在星球置顶一**
+
+
